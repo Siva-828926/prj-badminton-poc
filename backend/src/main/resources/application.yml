@@ -1,0 +1,17 @@
+server:
+  servlet:
+    context-path: /badcourt
+  port: 8080
+
+spring:
+  application:
+    name: badcourt
+  datasource:
+    url: jdbc:mysql://localhost:3306/badcourt_db
+    username: root
+    password: Admin@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQLDialect
