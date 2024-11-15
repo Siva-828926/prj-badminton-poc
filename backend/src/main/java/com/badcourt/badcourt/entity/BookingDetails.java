@@ -1,14 +1,13 @@
 package com.badcourt.badcourt.entity;
-import java.util.List;
 
-import jakarta.persistence.CascadeType;
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,17 +18,26 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Complexs {
+public class BookingDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer complexId;
-    private String complexName;
-    private String complexImages;
+    private Integer bookingId;
+    private Long userMobileNo;
     @ManyToOne
     @JoinColumn(name = "location_id")
-    private Locations locations;
-    @OneToMany(mappedBy = "complexs", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Courts> courts;
-
+    private Locations locationId;
+    @ManyToOne
+    @JoinColumn(name = "complex_id")
+    private Complexs complexsId;
+    @ManyToOne
+    @JoinColumn(name = "court_id")
+    private Courts courtsId;
+    private LocalDate date;
+    @ManyToOne
+    @JoinColumn(name = "time_slot_id")
+    private TimeSlots timeSlots;
+    @ManyToOne
+    @JoinColumn(name = "mobile_no")
+    private User userId;
 }
