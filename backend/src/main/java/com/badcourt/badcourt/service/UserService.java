@@ -14,6 +14,7 @@ import com.badcourt.badcourt.entity.Complexs;
 import com.badcourt.badcourt.entity.Courts;
 import com.badcourt.badcourt.entity.Locations;
 import com.badcourt.badcourt.entity.TimeSlots;
+import com.badcourt.badcourt.entity.User;
 import com.badcourt.badcourt.model.projection.BookingDetailsProjection;
 import com.badcourt.badcourt.model.request.BookCourt;
 import com.badcourt.badcourt.model.response.AllBookingDetailsResponse;
@@ -26,6 +27,7 @@ import com.badcourt.badcourt.repo.ComplexRepo;
 import com.badcourt.badcourt.repo.CourtRepo;
 import com.badcourt.badcourt.repo.LocationRepo;
 import com.badcourt.badcourt.repo.TimeSlotsRepo;
+import com.badcourt.badcourt.repo.UserRepo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,18 +41,20 @@ public class UserService {
     private final CourtRepo courtRepo;
     private final BookingDetailsRepo bookingDetailsRepo;
     private final TimeSlotsRepo timeSlotsRepo;
+    private final UserRepo userRepo;
 
     @Autowired
     public UserService(ResponeBuilder responeBuilder, LocationRepo locationRepo, ComplexRepo complexRepo,
-            CourtRepo courtRepo, BookingDetailsRepo bookingDetailsRepo, TimeSlotsRepo timeSlotsRepo) {
+            CourtRepo courtRepo, BookingDetailsRepo bookingDetailsRepo, TimeSlotsRepo timeSlotsRepo,
+            UserRepo userRepo) {
         this.responeBuilder = responeBuilder;
         this.locationRepo = locationRepo;
         this.complexRepo = complexRepo;
         this.courtRepo = courtRepo;
         this.bookingDetailsRepo = bookingDetailsRepo;
         this.timeSlotsRepo = timeSlotsRepo;
+        this.userRepo = userRepo;
     }
-
 
     public BadCourtReponse getAvailableSlots(Integer locationId, Integer complexId, Integer courtId, LocalDate date) {
         log.info("Get Available slots details service starts for location {} , complex {} , court{} , date {}",
@@ -76,9 +80,11 @@ public class UserService {
         TimeSlots timeSlot = timeSlotsRepo.findById(bookCourt.getTimeSlot())
                 .orElseThrow(() -> new RuntimeException("Time slot not found"));
 
+        User adminUser = userRepo.findUserByLocationAndComplex(bookCourt.getLocationId(), bookCourt.getComplexId());
+
         BookingDetails bookingDetails = BookingDetails.builder().userMobileNo(bookCourt.getMobileNo())
                 .locationId(location).complexsId(complex).courtsId(court).date(LocalDate.parse(bookCourt.getDate()))
-                .timeSlots(timeSlot).build();
+                .timeSlots(timeSlot).userId(adminUser) .build();
         bookingDetails = bookingDetailsRepo.save(bookingDetails);
         return responeBuilder.buildSuccessResponse(BookingDetailsResponse.builder()
                 .bookingId(BadcourtConstants.COURT_BOOKED_SUCCESSFULLY + " - " + bookingDetails.getBookingId())

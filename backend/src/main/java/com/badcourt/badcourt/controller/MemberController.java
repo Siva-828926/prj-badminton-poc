@@ -25,7 +25,7 @@ public class MemberController {
     }
 
     @GetMapping("get/locations")
-    public ResponseEntity<BadCourtReponse> getLocationDetailsHandler(@RequestParam("mobileNo") Long mobileNo) {
+    public ResponseEntity<BadCourtReponse> getLocationDetailsHandler(@RequestParam( value = "mobileNo" , required = false) Long mobileNo) {
         log.info("Get location details handler starts");
         return ResponseEntity.ok(memberService.getLocationDetails(mobileNo));
     }

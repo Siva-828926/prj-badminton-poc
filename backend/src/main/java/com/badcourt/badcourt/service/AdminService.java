@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,12 @@ import com.badcourt.badcourt.entity.Locations;
 import com.badcourt.badcourt.entity.User;
 import com.badcourt.badcourt.entity.UserLocation;
 import com.badcourt.badcourt.model.request.AddNewCourtRequest;
+import com.badcourt.badcourt.model.request.BookingDetails;
 import com.badcourt.badcourt.model.response.AddNewCourtResponse;
+import com.badcourt.badcourt.model.response.AvailableSlots;
+import com.badcourt.badcourt.model.response.AvailableSlotsResponse;
 import com.badcourt.badcourt.model.response.BadCourtReponse;
+import com.badcourt.badcourt.repo.BookingDetailsRepo;
 import com.badcourt.badcourt.repo.ComplexRepo;
 import com.badcourt.badcourt.repo.CourtRepo;
 import com.badcourt.badcourt.repo.LocationRepo;
@@ -40,19 +46,21 @@ public class AdminService {
     private final CourtRepo courtRepo;
     private final ComplexRepo complexRepo;
     private final UserLocationRepo userLocationRepo;
+    private final BookingDetailsRepo bookingDetailsRepo;
 
     private final String filePath = "C:/Users/vsiva6/Desktop/CanadaPost/Badmintion-Assigntment-requirements/Data/";
 
     @Autowired
     public AdminService(ResponeBuilder responeBuilder, UserRepo userRepo, LocationRepo locationRepo,
-            CourtRepo courtRepo,  UserLocationRepo userLocationRepo,
-            ComplexRepo complexRepo) {
+            CourtRepo courtRepo, UserLocationRepo userLocationRepo,
+            ComplexRepo complexRepo, BookingDetailsRepo bookingDetailsRepo) {
         this.responeBuilder = responeBuilder;
         this.userRepo = userRepo;
         this.locationRepo = locationRepo;
         this.courtRepo = courtRepo;
         this.complexRepo = complexRepo;
         this.userLocationRepo = userLocationRepo;
+        this.bookingDetailsRepo = bookingDetailsRepo;
     }
 
     public BadCourtReponse addNewCourt(AddNewCourtRequest addNewCourtRequest, MultipartFile courtImg) {
@@ -70,7 +78,7 @@ public class AdminService {
                         .build());
             }
             return null;
-        } else if (checkNoOfLocationAndComplexMappedToUser(userDetails.get() , addNewCourtRequest.getLocation())) {
+        } else if (checkNoOfLocationAndComplexMappedToUser(userDetails.get(), addNewCourtRequest.getLocation())) {
             if (addNewCourtInDB(userDetails.get(), addNewCourtRequest, courtImg)) {
                 return responeBuilder.buildSuccessResponse(AddNewCourtResponse.builder()
                         .msg(BadcourtConstants.NEW_COURT_ADDED_SUCCESSFULLY + "" + addNewCourtRequest.getMobileNo())
@@ -82,10 +90,10 @@ public class AdminService {
         }
     }
 
-    private Boolean checkNoOfLocationAndComplexMappedToUser(User userDetails , String newAddedLocations) {
-        
+    private Boolean checkNoOfLocationAndComplexMappedToUser(User userDetails, String newAddedLocations) {
+
         Long complexCount = complexRepo.countComplexesByUserAndLocation(userDetails.getMobileNo(), newAddedLocations);
-        return userDetails.getUserLocations().size() <= 3 && complexCount <=4;
+        return userDetails.getUserLocations().size() <= 3 && complexCount <= 4;
     }
 
     @Transactional
@@ -145,6 +153,16 @@ public class AdminService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public BadCourtReponse fetchBookingDetails(BookingDetails bookingDetails) {
+        log.info("Booking details service starts for admin {}", bookingDetails.getMobileNo());
+
+        List<AvailableSlots> availableSlots = bookingDetailsRepo.findBookingDetails(bookingDetails.getLocationId(),
+                bookingDetails.getComplexId(), bookingDetails.getCourtId(), LocalDate.parse(bookingDetails.getDate()),
+                bookingDetails.getMobileNo());
+        return responeBuilder
+                .buildSuccessResponse(AvailableSlotsResponse.builder().availableslots(availableSlots).build());
     }
 
 }

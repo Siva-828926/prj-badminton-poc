@@ -37,4 +37,7 @@ public class BookingDetails {
     @ManyToOne
     @JoinColumn(name = "time_slot_id")
     private TimeSlots timeSlots;
+    @ManyToOne
+    @JoinColumn(name = "mobile_no")
+    private User userId;
 }

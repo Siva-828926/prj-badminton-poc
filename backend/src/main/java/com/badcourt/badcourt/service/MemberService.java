@@ -42,7 +42,7 @@ public class MemberService {
         if (mobileNo == null) {
             listOfLocations = locationRepo.findAllProjectedBy();
         } else {
-            listOfLocations = locationRepo.findAllBy
+            listOfLocations = locationRepo.findAllByMobileNo(mobileNo);
         }
 
         if (listOfLocations.isEmpty()) {
