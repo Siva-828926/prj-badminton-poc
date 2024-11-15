@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.badcourt.badcourt.model.request.AddNewCourtRequest;
+import com.badcourt.badcourt.model.response.BadCourtReponse;
 import com.badcourt.badcourt.service.AdminService;
 
 import jakarta.validation.Valid;
@@ -29,10 +30,9 @@ public class AdminController {
     }
 
     @PostMapping("courts/add")
-    public ResponseEntity<?> addNewCourtHandler(@RequestParam("image") @NotNull  MultipartFile courtImg,
+    public ResponseEntity<BadCourtReponse> addNewCourtHandler(@RequestParam("image") @NotNull  MultipartFile courtImg,
             @Valid @ModelAttribute AddNewCourtRequest addNewCourtRequest) {
         log.info("Add new court handler starts for user {}", addNewCourtRequest.getMobileNo());
         return ResponseEntity.ok(adminService.addNewCourt(addNewCourtRequest , courtImg));
     }
-
 }

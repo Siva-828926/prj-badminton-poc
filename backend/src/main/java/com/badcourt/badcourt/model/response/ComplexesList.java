@@ -1,8 +1,8 @@
 package com.badcourt.badcourt.model.response;
 
-
 import java.util.List;
-import com.badcourt.badcourt.model.projection.LocationProjection;
+
+import com.badcourt.badcourt.model.projection.ComplexProjection;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LocationsList implements ApiResponse{
+public class ComplexesList implements ApiResponse {
 
-   private List<LocationProjection> locationList;
+    private List<ComplexProjection> complexList;
     
 }
