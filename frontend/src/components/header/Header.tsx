@@ -9,9 +9,12 @@ const Header = () => {
   });
 
   return (
-    <header>
+    <header className="bg-gray-800 text-white p-4 flex items-center">
+      <div className="mr-20">
+        
+      </div>
       <nav>
-        <ul>
+        <ul className="flex space-x-8">
           {headerOptions.map((values, indexes) => (
             <li key={indexes}>{values}</li>
           ))}
