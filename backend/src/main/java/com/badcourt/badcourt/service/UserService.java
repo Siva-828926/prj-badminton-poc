@@ -2,6 +2,7 @@ package com.badcourt.badcourt.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import com.badcourt.badcourt.model.response.AvailableSlots;
 import com.badcourt.badcourt.model.response.AvailableSlotsResponse;
 import com.badcourt.badcourt.model.response.BadCourtReponse;
 import com.badcourt.badcourt.model.response.BookingDetailsResponse;
+import com.badcourt.badcourt.model.response.DeleteBooking;
 import com.badcourt.badcourt.repo.BookingDetailsRepo;
 import com.badcourt.badcourt.repo.ComplexRepo;
 import com.badcourt.badcourt.repo.CourtRepo;
@@ -84,7 +86,7 @@ public class UserService {
 
         BookingDetails bookingDetails = BookingDetails.builder().userMobileNo(bookCourt.getMobileNo())
                 .locationId(location).complexsId(complex).courtsId(court).date(LocalDate.parse(bookCourt.getDate()))
-                .timeSlots(timeSlot).userId(adminUser) .build();
+                .timeSlots(timeSlot).userId(adminUser).build();
         bookingDetails = bookingDetailsRepo.save(bookingDetails);
         return responeBuilder.buildSuccessResponse(BookingDetailsResponse.builder()
                 .bookingId(BadcourtConstants.COURT_BOOKED_SUCCESSFULLY + " - " + bookingDetails.getBookingId())
@@ -100,6 +102,19 @@ public class UserService {
 
         return responeBuilder
                 .buildSuccessResponse(AllBookingDetailsResponse.builder().bookingDetailsList(bookingDetails).build());
+
+    }
+
+    public BadCourtReponse deleteBookingDetails(Integer bookingId) {
+        Optional<BookingDetails> bookingDetails = bookingDetailsRepo.findById(bookingId);
+        if (bookingDetails.isEmpty()) {
+            return responeBuilder.buildFailureResponse(BadcourtConstants.NO_BOOKING_DETAILS_FOUND);
+        } else {
+            bookingDetailsRepo.deleteById(bookingId);
+            return responeBuilder
+                    .buildSuccessResponse(
+                            DeleteBooking.builder().msg(BadcourtConstants.BOOKING_DELETD_SUCCESSFULLY).build());
+        }
 
     }
 

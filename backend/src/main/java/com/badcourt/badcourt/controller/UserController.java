@@ -2,6 +2,7 @@ package com.badcourt.badcourt.controller;
 
 import java.time.LocalDate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,15 +40,22 @@ public class UserController {
 
     @PostMapping("court/book")
     public ResponseEntity<BadCourtReponse> bookingCourtHandler(@Valid @RequestBody BookCourt bookCourt) {
-        log.info("Booking court handler starts for user {}" , bookCourt.getMobileNo());
+        log.info("Booking court handler starts for user {}", bookCourt.getMobileNo());
         return ResponseEntity.ok(userService.bookCourt(bookCourt));
 
     }
 
     @GetMapping("get/bookingdetails")
     public ResponseEntity<BadCourtReponse> getBookingDetails(@Valid @RequestParam("mobileNo") Long mobileNo) {
-        log.info("Fetching booking detils handler startd for user {}" , mobileNo);
+        log.info("Fetching booking detils handler startd for user {}", mobileNo);
         return ResponseEntity.ok(userService.fetchBookingDetails(mobileNo));
+
+    }
+
+    @DeleteMapping("delete/bookings")
+    public ResponseEntity<BadCourtReponse> deleteBookings(@Valid @RequestParam("bookingId") Integer bookingId) {
+        log.info("Deleting booking handler starts for booking id", bookingId);
+        return ResponseEntity.ok(userService.deleteBookingDetails(bookingId));
 
     }
 

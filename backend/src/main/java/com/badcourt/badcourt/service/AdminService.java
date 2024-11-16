@@ -108,12 +108,15 @@ public class AdminService {
                     .build();
             locations = locationRepo.save(locations);
         }
-        String imagePath = saveFileInServer(user.getMobileNo(), locations.getLocationId(), courtImage);
+
         Complexs complexs = Complexs.builder()
                 .complexName(addNewCourtRequest.getComplexName())
                 .locations(locations)
-                .complexImages(imagePath)
                 .build();
+        complexs = complexRepo.save(complexs);
+        String imagePath = saveFileInServer(user.getMobileNo(), locations.getLocationId(), complexs.getComplexId(),
+                courtImage);
+        complexs.setComplexImages(imagePath);
         complexs = complexRepo.save(complexs);
 
         UserLocation userLocation = new UserLocation();
@@ -135,10 +138,10 @@ public class AdminService {
         return true;
     }
 
-    private String saveFileInServer(Long userId, Integer locationId, MultipartFile courtImage) {
+    private String saveFileInServer(Long userId, Integer locationId, Integer complexId, MultipartFile courtImage) {
 
         String userDir = filePath + userId + "/";
-        String locDir = userDir + locationId;
+        String locDir = userDir + locationId + "/" + complexId;
         File dir = new File(locDir);
         if (!dir.exists()) {
             dir.mkdirs();
