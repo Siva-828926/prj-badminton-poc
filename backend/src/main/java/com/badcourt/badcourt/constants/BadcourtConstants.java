@@ -11,5 +11,6 @@ public class BadcourtConstants {
     public static final String No_COURT_FOUND = "No Courts found"; 
     public static final String COURT_BOOKED_SUCCESSFULLY = "Court booked successfully"; 
     public static final String NO_BOOKING_DETAILS_FOUND = "No Booking details found"; 
+    public static final String BOOKING_DELETD_SUCCESSFULLY = "Booking deleted successfully"; 
     
 }

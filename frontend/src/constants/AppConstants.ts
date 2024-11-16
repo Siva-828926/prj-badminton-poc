@@ -5,7 +5,6 @@ export const headerOptionsList = () => {
     "User Dashboard",
     "Book Court",
     "Register New Court",
-    "My Bookings",
   ];
   return list;
 };

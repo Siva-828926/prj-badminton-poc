@@ -5,12 +5,16 @@ import java.time.LocalDate;
 public interface BookingDetailsProjection {
 
     Long getBookingId();
-    Locations getLocationId();
-    Complexs getcomplexsId();
-    Courts getcourtsId();
-    LocalDate getDate();
-    TimeSlots getTimeSlots();
 
+    Locations getLocationId();
+
+    Complexs getcomplexsId();
+
+    Courts getcourtsId();
+
+    LocalDate getDate();
+
+    TimeSlots getTimeSlots();
 
     interface Locations {
         String getLocationName();
