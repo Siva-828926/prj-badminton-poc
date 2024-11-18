@@ -1,5 +1,11 @@
+import BookCourt from "../components/bookcourt/BookCourt";
+
 const BookCourtPage = () => {
-  return <h1> Book court Page</h1>;
+  return(
+    <div>
+      <BookCourt />
+    </div>
+  );
 };
 
 export default BookCourtPage;

@@ -60,11 +60,11 @@ export const loadRegisterNewCourtFormHeadings =
       {
         heading: "courtImage",
         placeHolder: "Complex Image",
-        type: "button",
+        type: "file",
       },
       {
         heading: "court",
-        placeHolder: "court",
+        placeHolder: "Court",
         type: "array",
       },
     ];
@@ -74,12 +74,23 @@ export const loadRegisterNewCourtFormHeadings =
 
 export interface IFormRegisterNewCourt {
   mobileNo: number;
+  location: string;
   userName: string;
   complexName: string;
-  courtImage: File;
-  court: [
-    {
-      name: string;
-    }
-  ];
+  courtImage: File | null;
+  court: {
+    name: string;
+  }[];
 }
+
+export const loadFormDefaultValues = () => {
+  const defaultFormValues = {
+    mobileNo: 0,
+    location: "",
+    userName: "",
+    complexName: "",
+    courtImage: null,
+    court: [],
+  };
+  return defaultFormValues;
+};

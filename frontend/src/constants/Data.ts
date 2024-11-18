@@ -21,3 +21,7 @@ export interface IBookingDetails {
 export interface ICancelBooking {
   msg: string;
 }
+
+export interface IAddNewCourt {
+  msg: string;
+}
