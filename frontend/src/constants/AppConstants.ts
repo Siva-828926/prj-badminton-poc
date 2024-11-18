@@ -38,12 +38,12 @@ export const loadRegisterNewCourtFormHeadings =
   (): IFormRegisterNewCourtHeadings[] => {
     const formValues = [
       {
-        heading: "mobileNumber",
+        heading: "mobileNo",
         placeHolder: "Mobile Number",
         type: "text",
       },
       {
-        heading: "name",
+        heading: "userName",
         placeHolder: "Name",
         type: "text",
       },
@@ -58,9 +58,9 @@ export const loadRegisterNewCourtFormHeadings =
         type: "text",
       },
       {
-        heading: "complexImage",
+        heading: "courtImage",
         placeHolder: "Complex Image",
-        type: "upload",
+        type: "button",
       },
       {
         heading: "court",

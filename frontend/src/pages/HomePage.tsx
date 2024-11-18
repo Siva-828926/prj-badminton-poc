@@ -14,8 +14,8 @@ const HomePage = () => {
         <Header />
       </div>
 
-      <div className="flex-grow bg-gray-100 p-4">
-        <div className="flex items-center justify-center min-h-full m-4 bg-gray-100">
+      <div className="flex-grow p-4">
+        <div className="flex items-center justify-center min-h-full m-4">
           <div className="w-full max-w-4xl p-6 bg-white shadow-lg rounded-lg">
             <Routes>
               <Route path="/" element={<EmptyPage />} />
