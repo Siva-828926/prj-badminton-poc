@@ -1,6 +1,7 @@
 package com.badcourt.badcourt.service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -128,13 +129,25 @@ public class UserService {
                                 .locationName(bookingDetailsProjection.getLocationId().getLocationName())
                                 .complexName(bookingDetailsProjection.getcomplexsId().getComplexName())
                                 .courtName(bookingDetailsProjection.getcourtsId().getcourtName()).build();
-                if (bookingDetailsProjection.getDate().isBefore(LocalDate.now())) {
+
+                Boolean isPast = toCheckIsPast(bookingDetailsProjection.getTimeSlots().getSlotTime());
+                if (bookingDetailsProjection.getDate().isBefore(LocalDate.now()) && isPast) {
                         bookingDetailsListTrans.setIsPast(Boolean.TRUE);
                 } else {
                         bookingDetailsListTrans.setIsPast(Boolean.FALSE);
                 }
 
                 return bookingDetailsListTrans;
+        }
+
+        private Boolean toCheckIsPast(String bookCourtTime) {
+                LocalTime currentTime = LocalTime.now();
+                LocalTime bookedTime = LocalTime.of(Integer.parseInt(bookCourtTime.substring(8, 10)), 0);
+                if (bookedTime.isBefore(currentTime)) {
+                        return false;
+                }
+                return true;
+
         }
 
         public BadCourtReponse deleteBookingDetails(Integer bookingId) {

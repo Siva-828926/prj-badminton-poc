@@ -52,7 +52,7 @@ const UserDashboard = () => {
           />
           <button
             onClick={fetchBookingDetailsHandler}
-            className="mb-4 p-2 bg-gray-500 text-white rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 shadow-sm ml-2"
+            className="mb-4 p-2 bg-blue-500 text-white rounded focus:outline-none focus:ring-2 shadow-sm ml-2 font-medium font-roboto"
           >
             {" "}
             Fetch Details{" "}

@@ -20,8 +20,8 @@ const BtHeader: React.FC<IHeaderOptions> = ({ id, title }) => {
   };
   return (
     <button
-      
       onClick={() => buttonOnClickHandler(id)}
+      className="font-bold"
     >
       {title}
     </button>

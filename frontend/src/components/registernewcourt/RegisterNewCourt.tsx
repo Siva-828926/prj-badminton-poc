@@ -51,7 +51,7 @@ const RegisterNewCourt = () => {
 
   useEffect(() => {
     setFormHeadings(loadRegisterNewCourtFormHeadings());
-    setFormValues(loadFormDefaultValues())
+    setFormValues(loadFormDefaultValues());
     // setCourtList([]);
   }, []);
 
@@ -131,7 +131,10 @@ const RegisterNewCourt = () => {
     formData.append("complexName", formValues.complexName);
     formData.append("image", formValues.courtImage);
     formData.append("location", formValues.location);
-    formValues.court.forEach((val) => formData.append("courtName", val));
+    formValues.court.forEach((val) => {
+      console.log(val);
+      formData.append("courtName",val.name);
+    });
     return formData;
   };
 
