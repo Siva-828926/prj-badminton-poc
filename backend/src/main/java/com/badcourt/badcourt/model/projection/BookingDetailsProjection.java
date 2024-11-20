@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public interface BookingDetailsProjection {
 
-    Long getBookingId();
+    Integer getBookingId();
 
     Locations getLocationId();
 

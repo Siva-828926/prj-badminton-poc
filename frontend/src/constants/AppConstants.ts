@@ -1,12 +1,24 @@
 // Default values for header option
-export const headerOptionsList = () => {
-  const list: string[] = [
-    "Admin Dashboard",
-    "User Dashboard",
-    "Book Court",
-    "Register New Court",
+export const headerOptionsList = (): IHeaderOptions[] => {
+  const HeaderoptionList = [
+    {
+      id: 1,
+      title: "Admin Dashboard",
+    },
+    {
+      id: 2,
+      title: "User Dashboard",
+    },
+    {
+      id: 3,
+      title: "Book Court",
+    },
+    {
+      id: 4,
+      title: "Register New Court",
+    },
   ];
-  return list;
+  return HeaderoptionList;
 };
 
 // interface for Regsiter New court form
@@ -16,52 +28,71 @@ export interface IFormRegisterNewCourtHeadings {
   type: string;
 }
 
-// Form structure for new court registration
-export const loadRegisterNewCourtFormHeadings = (): IFormRegisterNewCourtHeadings[] => {
-  const formValues = [
-    {
-      heading: "mobileNumber",
-      placeHolder: "Mobile Number",
-      type: "text",
-    },
-    {
-      heading: "name",
-      placeHolder: "Name",
-      type: "text",
-    },
-    {
-      heading: "location",
-      placeHolder: "Location",
-      type: "text",
-    },
-    {
-      heading: "complexName",
-      placeHolder: "Complex Name",
-      type: "text",
-    },
-    {
-      heading: "complexImage",
-      placeHolder: "Complex Image",
-      type: "upload",
-    },
-    {
-      heading: "court",
-      placeHolder: "court",
-      type: "array",
-    },
-  ];
+export interface IHeaderOptions {
+  id: number;
+  title: string;
+  isClicked : boolean
+  onClickHandler : (buttonId : number) => void
+}
 
-  return formValues;
-};
+// Form structure for new court registration
+export const loadRegisterNewCourtFormHeadings =
+  (): IFormRegisterNewCourtHeadings[] => {
+    const formValues = [
+      {
+        heading: "mobileNo",
+        placeHolder: "Mobile Number",
+        type: "text",
+      },
+      {
+        heading: "userName",
+        placeHolder: "Name",
+        type: "text",
+      },
+      {
+        heading: "location",
+        placeHolder: "Location",
+        type: "text",
+      },
+      {
+        heading: "complexName",
+        placeHolder: "Complex Name",
+        type: "text",
+      },
+      {
+        heading: "courtImage",
+        placeHolder: "Complex Image",
+        type: "file",
+      },
+      {
+        heading: "court",
+        placeHolder: "Court",
+        type: "array",
+      },
+    ];
+
+    return formValues;
+  };
 
 export interface IFormRegisterNewCourt {
   mobileNo: number;
+  location: string;
   userName: string;
   complexName: string;
-  courtImage: File;
-  court: [
-    {
-      name: string;
-    }
-  ];
+  courtImage: File | null;
+  court: {
+    name: string;
+  }[];
 }
+
+export const loadFormDefaultValues = () => {
+  const defaultFormValues = {
+    mobileNo: 0,
+    location: "",
+    userName: "",
+    complexName: "",
+    courtImage: null,
+    court: [],
+  };
+  return defaultFormValues;
+};

@@ -1,12 +1,17 @@
-import HomePage from './pages/HomePage'
+import HomePage from "./pages/HomePage";
+import { BrowserRouter as Router } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-
   return (
-    <>
-      <HomePage />
-    </>
-  )
+    <Router>
+      <>
+        <HomePage />
+        <ToastContainer />
+      </>
+    </Router>
+  );
 }
 
-export default App
+export default App;

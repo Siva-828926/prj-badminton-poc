@@ -14,11 +14,4 @@ public class AvailableSlots {
     private Integer slotId;
     private String slotName;
     private Boolean isAvailable;
-
-    // public AvailableSlots(Integer slotId, String slotName, Boolean isAvailable) {
-    //     this.slotId = slotId;
-    //     this.slotName = slotName;
-    //     this.isAvailable = isAvailable;
-    // }
-
 }

@@ -2,6 +2,7 @@ package com.badcourt.badcourt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.badcourt.badcourt.model.request.AddNewCourtRequest;
-import com.badcourt.badcourt.model.request.BookCourt;
 import com.badcourt.badcourt.model.request.BookingDetails;
 import com.badcourt.badcourt.model.response.BadCourtReponse;
 import com.badcourt.badcourt.service.AdminService;
@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api/v1/admin/")
 @Slf4j
+@CrossOrigin("*")
 public class AdminController {
 
     private final AdminService adminService;

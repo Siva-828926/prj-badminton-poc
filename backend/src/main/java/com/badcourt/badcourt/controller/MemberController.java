@@ -1,6 +1,7 @@
 package com.badcourt.badcourt.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api/v1/member/")
 @Slf4j
+@CrossOrigin("*")
 public class MemberController {
 
     private final MemberService memberService;

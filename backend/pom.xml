@@ -65,6 +65,24 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<version>9.1.0</version>
 		</dependency>
+
+	<dependency>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-core</artifactId>
+		<version>4.8.1</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.camel.springboot</groupId>
+        <artifactId>camel-spring-boot-starter</artifactId>
+		<version>4.8.1</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-file</artifactId>
+		<version>4.8.1</version>
+    </dependency>
 	</dependencies>
 
 	<build>
