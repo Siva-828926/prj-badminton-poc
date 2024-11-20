@@ -31,6 +31,8 @@ export interface IFormRegisterNewCourtHeadings {
 export interface IHeaderOptions {
   id: number;
   title: string;
+  isClicked : boolean
+  onClickHandler : (buttonId : number) => void
 }
 
 // Form structure for new court registration

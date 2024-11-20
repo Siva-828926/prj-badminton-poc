@@ -33,5 +33,6 @@ export interface DateProps {
   export interface TimeSlotsProps {
     details: ITimeSlots;
     isSelected : boolean;
+    isShown : boolean
     onClickHandler: (selectedTime: number) => void;
   }
