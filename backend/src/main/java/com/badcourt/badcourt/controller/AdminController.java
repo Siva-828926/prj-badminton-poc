@@ -41,7 +41,7 @@ public class AdminController {
         return ResponseEntity.ok(adminService.addNewCourt(addNewCourtRequest, courtImg));
     }
 
-    @GetMapping("get/bookingdetails")
+    @PostMapping("get/bookingdetails")
     public ResponseEntity<BadCourtReponse> getBookingDetails(@Valid @RequestBody BookingDetails bookingDetails) {
         log.info("Fetching booking details starts for admin {}", bookingDetails.getMobileNo());
         return ResponseEntity.ok(adminService.fetchBookingDetails(bookingDetails));
