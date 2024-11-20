@@ -4,11 +4,12 @@ export interface DateFormat {
   displaydate: string;
 }
 
-export const generateDates = (): DateFormat[] => {
+export const generateDates = (isShown: boolean): DateFormat[] => {
   const currentDate = new Date();
   const dates = [];
 
-  for (let i = -5; i <= 5; i++) {
+  var initalValue = isShown ? 0 : -5;
+  for (let i = initalValue; i <= 5; i++) {
     const date = new Date();
     date.setDate(currentDate.getDate() + i);
     dates.push(formatDate(date));

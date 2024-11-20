@@ -68,7 +68,7 @@ const BookingDetails: React.FC<any> = ({
     setSelectedDate(undefined);
     setSelectedTime(undefined);
     setSelectedCourt(courtId);
-    setDateList(generateDates());
+    setDateList(generateDates(isShown));
   };
 
   const onClickDateHandler = (date: string) => {
