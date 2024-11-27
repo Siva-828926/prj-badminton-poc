@@ -2,6 +2,7 @@ package com.badcourt.badcourt.service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -68,12 +69,33 @@ public class UserService {
                 List<AvailableSlots> availableSlots = bookingDetailsRepo.findSlotsWithAvailability(locationId,
                                 complexId,
                                 courtId, date);
+
+                List<AvailableSlots> filteredAvailableSlots = new ArrayList<AvailableSlots>();
+
+                for (AvailableSlots availableSlots1 : availableSlots) {
+                        System.out.println(" DATE " + date);
+                        System.out.println(" NOw " + LocalDate.now());
+                        if (date.isEqual(LocalDate.now())) {
+                                if (!availableSlots1.getIsAvailable()) {
+                                        availableSlots1.setIsAvailable(false);
+                                } else {
+                                        if (!toCheckIsPast(availableSlots1.getSlotName())) {
+                                                availableSlots1.setIsAvailable(false);
+                                        } else {
+                                                availableSlots1.setIsAvailable(true);
+                                        }
+                                }
+
+                        }
+                        filteredAvailableSlots.add(availableSlots1);
+                }
                 if (availableSlots.isEmpty()) {
                         log.info("No slots available for selected combination");
                 }
                 return responeBuilder
-                                .buildSuccessResponse(AvailableSlotsResponse.builder().availableslots(availableSlots)
-                                                .build());
+                                .buildSuccessResponse(
+                                                AvailableSlotsResponse.builder().availableslots(filteredAvailableSlots)
+                                                                .build());
         }
 
         @Transactional

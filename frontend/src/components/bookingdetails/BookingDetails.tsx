@@ -36,7 +36,7 @@ const BookingDetails: React.FC<any> = ({
 
   const fetchLocationDetails = () => {
     ApiService.fetchLocation(mobileNoProps).then((res) => {
-      setLocationList(res.locationList);
+            setLocationList(res.locationList);
     });
   };
 
@@ -74,14 +74,25 @@ const BookingDetails: React.FC<any> = ({
   const onClickDateHandler = (date: string) => {
     setSelectedTime(undefined);
     setSelectedDate(date);
+    isShown ? (
     ApiService.fetchAvailableSlots(
       selectedLocation,
       selectedComplex,
       selectedCourt,
-      date
+      date,
     ).then((res) => {
       settimeSlotList(res.availableslots);
-    });
+    })) : ( 
+        ApiService.fetchAvailableSlotsForAdmin(
+        selectedLocation,
+        selectedComplex,
+        selectedCourt,
+        date,
+        mobileNoProps
+      ).then((res) => {
+        settimeSlotList(res.availableslots);
+      }))
+
   };
 
   const onClickTimeHandler = (time: number) => {
@@ -199,7 +210,7 @@ const BookingDetails: React.FC<any> = ({
                 key={index}
                 details={data}
                 isSelected={selectedTime === data.slotId}
-                isShown = {isShown}
+                isShown={isShown}
                 onClickHandler={onClickTimeHandler}
               />
             ))}
@@ -209,7 +220,7 @@ const BookingDetails: React.FC<any> = ({
         ""
       )}
 
-      {selectedTime  && isShown ? (
+      {selectedTime && isShown ? (
         <div className="flex items-center justify-between mb-4 w-full mt-2">
           <h3 className="mr-4 text-right w-1/3 bold">Mobile No</h3>
           <div className="w-2/3 flex flex-wrap gap-1 justify-start">

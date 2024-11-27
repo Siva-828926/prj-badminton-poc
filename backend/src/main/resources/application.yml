@@ -7,9 +7,12 @@ spring:
   application:
     name: badcourt
   datasource:
-    url: jdbc:mysql://localhost:3306/badcourt_db
-    username: root
-    password: Admin@123
+    url: jdbc:mysql://gi-cc-mysql-db-gi-cc.j.aivencloud.com:18688/badcourt_db?ssl-mode=REQUIRED
+    username: avnadmin
+    password: AVNS_m0aQNILDQxyaKZmqY3x
+      # url: jdbc:mysql://localhost:3306/badcourt_db
+      # username: root
+      # password: Admin@123
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:

@@ -172,6 +172,38 @@ export const fetchAvailableSlots = (
     });
 };
 
+export const fetchAvailableSlotsForAdmin = (
+  locationId: number,
+  complexId: number,
+  courtId: number,
+  date: string,
+  mobileNo: number
+): Promise<ITimeSlotsList> => {
+  const url = BASE_URL + "admin/get/bookingdetails";
+
+  const body = {
+    locationId: locationId,
+    complexId: complexId,
+    courtId: courtId,
+    date: date,
+    mobileNo: mobileNo,
+  };
+  return axios
+    .post<IApiResponse>(url,body)
+    .then((response) => {
+      if (response.data.serviceStatus) {
+        console.log(response.data);
+        return response.data.data;
+      } else {
+        toast.error(response.data.serviceMsg);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      return err;
+    });
+};
+
 export const bookCourt = (bookcourtDetails: IBookingForm) => {
   const url = BASE_URL + "users/court/book";
   return axios
