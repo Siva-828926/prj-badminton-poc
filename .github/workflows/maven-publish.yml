@@ -1,9 +1,14 @@
-name: Build and Push Docker Image
+name: Build , Push docker image and create PR in config repos
 
 on:
   push:
     branches:
-      - ci-cd
+      - master
+
+permissions:
+  contents: write
+  packages: write
+  pull-requests: write
 
 jobs:
   build:
@@ -28,4 +33,53 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/my-image:latest
+          tags: ghcr.io/siva-828926/bad-court:${{ github.sha }}
+
+      - name: Checkout the target repository
+        uses: actions/checkout@v2
+        with:
+          repository: Siva-828926/prj-badminton-manifest
+          token: ${{ secrets.PAT_TOKEN }}
+          path: ./prj-badminton-manifest
+
+      - name: Update image name in target repository
+        run: |
+          cd prj-badminton-manifest
+          sed -i 's|image: ghcr.io/siva-828926/bad-court:[^ ]*|image: ghcr.io/siva-828926/bad-court:${{ github.sha }}|' deployment.yml
+
+      - name: Commit changes
+        run: |
+          cd prj-badminton-manifest
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b update-image-for-${{ github.sha }}
+          git add .
+          git commit -m "Update image to ghcr.io/siva-828926/bad-court:${{ github.sha }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+      - name: Push changes and create PR
+        run: |
+          cd prj-badminton-manifest
+          git push origin update-image-for-${{ github.sha }}
+          gh pr create -B master -H update-image-for-${{ github.sha }} --title 'Deploy new image ghcr.io/siva-828926/bad-court:${{ github.sha }}' --body 'Deploying new image, where code is merged in soure repo with commit id ${{ github.sha }}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+      # - name: Debug - Print current user and permissions
+      #   run: |
+      #     echo "Current user: $(git config user.name)"
+      #     echo "Current email: $(git config user.email)"
+      #     echo "Repository URL: $(git remote get-url origin)"
+      #     echo "Checking repository permissions..."
+      #     curl -H "Authorization: token ${{ secrets.PAT_TOKEN }}" https://api.github.com/repos/Siva-828926/prj-badminton-manifest/collaborators/Siva-828926/permission
+
+      # - name: Create Pull Request
+      #   uses: peter-evans/create-pull-request@v4
+      #   with:
+      #     token: ${{ secrets.PAT_TOKEN }}
+      #     commit-message: Update image to ghcr.io/siva-828926/bad-court:${{ github.sha }}
+      #     branch: update-image-for-${{ github.sha }}
+      #     title: Update image to ghcr.io/siva-828926/bad-court:${{ github.sha }}
+      #     body: This PR updates the image to ghcr.io/siva-828926/bad-court:${{ github.sha }}
+      #     base: master

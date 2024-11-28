@@ -16,6 +16,6 @@ WORKDIR /app
 
 COPY --from=build /app/target/badcourt.jar /app/badcourt.jar
 
-EXPOSE 8081
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "badcourt.jar"]
