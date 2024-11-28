@@ -8,6 +8,7 @@ on:
 permissions:
   contents: read
   packages: write
+  pull-requests: write
 
 jobs:
   build:
@@ -33,3 +34,37 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/siva-828926/bad-court:${{ github.sha }}
+
+      - name: Checkout the target repository
+        uses: actions/checkout@v2
+        with:
+          repository: Siva-828926/prj-badminton-manifest
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: ./prj-badminton-manifest
+
+      - name: Update image name in target repository
+        run: |
+          cd prj-badminton-manifest
+          sed -i 's|image: ghcr.io/siva-828926/bad-court:[^ ]*|image: ghcr.io/siva-828926/bad-court:${{ github.sha }}|' ./prj-badminton-manifest/deployment.yml
+
+      - name: Commit and push changes to target repository
+        run: |
+          cd prj-badminton-manifest
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b update-image-for-${{ github.sha }}
+          git add .
+          git commit -m "Update image to ghcr.io/siva-828926/bad-court:${{ github.sha }}"
+          git push origin update-image-for-${{ github.sha }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update image to ghcr.io/siva-828926/bad-court:${{ github.sha }}
+          branch: update-image-for-${{ github.sha }}
+          title: Update image to ghcr.io/siva-828926/bad-court:${{ github.sha }}
+          body: This PR updates the image to ghcr.io/siva-828926/bad-court:${{ github.sha }}
+          base: master
