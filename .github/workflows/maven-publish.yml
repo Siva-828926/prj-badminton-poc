@@ -32,4 +32,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/siva-828926/bad-court:latest
+          tags: ghcr.io/siva-828926/bad-court:${{ github.sha }}
