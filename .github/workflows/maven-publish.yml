@@ -58,10 +58,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
-      - name: Push changes to fork
+      - name: Push changes
         run: |
           cd prj-badminton-manifest
           git push origin update-image-for-${{ github.sha }}
+
+      - name: Debug - Print current user and permissions
+        run: |
+          echo "Current user: $(git config user.name)"
+          echo "Current email: $(git config user.email)"
+          echo "Repository URL: $(git remote get-url origin)"
+          echo "Checking repository permissions..."
+          curl -H "Authorization: token ${{ secrets.PAT_TOKEN }}" https://api.github.com/repos/Siva-828926/prj-badminton-manifest/collaborators/Siva-828926/permission
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
