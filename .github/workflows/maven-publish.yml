@@ -45,7 +45,7 @@ jobs:
       - name: Update image name in target repository
         run: |
           cd prj-badminton-manifest
-          sed -i 's|image: ghcr.io/siva-828926/bad-court:[^ ]*|image: ghcr.io/siva-828926/bad-court:${{ github.sha }}|' ./prj-badminton-manifest/deployment.yml
+          sed -i 's|image: ghcr.io/siva-828926/bad-court:[^ ]*|image: ghcr.io/siva-828926/bad-court:${{ github.sha }}|' deployment.yml
 
       - name: Commit and push changes to target repository
         run: |
