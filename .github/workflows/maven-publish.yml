@@ -3,7 +3,7 @@ name: Build , Push docker image and create PR in config repos
 on:
   push:
     branches:
-      - ci-cd
+      - master
 
 permissions:
   contents: write
