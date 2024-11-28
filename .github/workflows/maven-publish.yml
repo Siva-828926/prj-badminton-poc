@@ -47,7 +47,7 @@ jobs:
           cd prj-badminton-manifest
           sed -i 's|image: ghcr.io/siva-828926/bad-court:[^ ]*|image: ghcr.io/siva-828926/bad-court:${{ github.sha }}|' deployment.yml
 
-      - name: Commit and push changes to target repository
+      - name: Commit changes
         run: |
           cd prj-badminton-manifest
           git config --global user.name "github-actions[bot]"
@@ -55,9 +55,13 @@ jobs:
           git checkout -b update-image-for-${{ github.sha }}
           git add .
           git commit -m "Update image to ghcr.io/siva-828926/bad-court:${{ github.sha }}"
-          git push origin update-image-for-${{ github.sha }}
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+      - name: Push changes to fork
+        run: |
+          git remote add fork https://Siva-828926:${{ secrets.PAT_TOKEN }}@github.com/Siva-828926/prj-badminton-manifest.git
+          git push fork update-image-for-${{ github.sha }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
@@ -68,4 +72,4 @@ jobs:
           title: Update image to ghcr.io/siva-828926/bad-court:${{ github.sha }}
           body: This PR updates the image to ghcr.io/siva-828926/bad-court:${{ github.sha }}
           base: master
-          repository: Siva-828926/prj-badminton-manifest
+          push-to-fork: Siva-828926/prj-badminton-manifest
