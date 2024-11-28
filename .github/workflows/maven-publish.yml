@@ -62,7 +62,7 @@ jobs:
         run: |
           cd prj-badminton-manifest
           git push origin update-image-for-${{ github.sha }}
-          gh pr create -B master -H update-image-for-${{ github.sha }} --title 'Deploy new image' --body 'Created by Github action'
+          gh pr create -B master -H update-image-for-${{ github.sha }} --title 'Deploy new image ghcr.io/siva-828926/bad-court:${{ github.sha }}' --body 'Deploying new image, where code is merged in soure repo with commit id ${{ github.sha }}'
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
