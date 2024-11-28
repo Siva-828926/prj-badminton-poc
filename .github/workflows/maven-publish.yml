@@ -60,6 +60,7 @@ jobs:
 
       - name: Push changes to fork
         run: |
+          cd prj-badminton-manifest
           git remote add fork https://Siva-828926:${{ secrets.PAT_TOKEN }}@github.com/Siva-828926/prj-badminton-manifest.git
           git push fork update-image-for-${{ github.sha }}
 
