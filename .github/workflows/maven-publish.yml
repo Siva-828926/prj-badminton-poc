@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build , Push docker image and create PR in config repo
 
 on:
   push:
